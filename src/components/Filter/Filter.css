@@ -1,0 +1,8 @@
+.filter{
+    text-align: center;
+    display: flex;
+    padding: 1rem;
+    margin: 1rem;
+    border-bottom: 2px solid #c0c0c0;
+}
+

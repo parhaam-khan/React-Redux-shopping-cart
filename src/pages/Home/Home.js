@@ -1,16 +1,20 @@
+import Filter from '../../components/Filter/Filter';
 import Product from '../../components/Product/Product';
-import products from '../../products/products';
+
 import './Home.css'
 
-const Home = () => {
+const Home = (props) => {
     return ( 
     <main>
+         <Filter size={props.size}  products={props.products} 
+         filterSizeHandler={props.filterSizeHandler}  lowest={props.lowest}
+          highest={props.highest} latest={props.latest}/>
         <div className="content">
 <div className="main-product">
     <ul className='products'>  
-{products.map((item) => {
+{props.products.map((item) => {
     return (
-<li key={products._id}>
+<li key={item._id}>
 <Product product={item}/>
 </li>
     )
