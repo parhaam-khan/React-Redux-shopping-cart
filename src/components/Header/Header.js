@@ -6,7 +6,6 @@ const Header = () => {
            <div className="collapse navbar-collapse">
                <ul className="navbar-nav">
                    <li className="nav-item"><a className="nav-link active">Home</a></li>
-                   <li className="nav-item ms-5"><a><i className="fa fa-shopping-cart fa-2x"></i></a></li>
                </ul>
            </div>
            </div>

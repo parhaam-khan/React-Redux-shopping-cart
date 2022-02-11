@@ -1,3 +1,4 @@
+import Cart from '../../components/Cart/Cart';
 import Filter from '../../components/Filter/Filter';
 import Product from '../../components/Product/Product';
 
@@ -13,16 +14,16 @@ const Home = (props) => {
 <div className="main-product">
     <ul className='products'>  
 {props.products.map((item) => {
-    return (
-<li key={item._id}>
-<Product product={item}/>
-</li>
-    )
+    return (    
+<li key={item._id}> 
+<Product product={item} addtocartHandler={props.addtocartHandler}/>
+</li>)
 })}
+
 </ul>
 </div>
 <div className="sidebar">
-sidebar
+<Cart removeHandler={props.removeHandler} cartItems={props.cartItems}/>
 </div>
         </div>
     </main> );

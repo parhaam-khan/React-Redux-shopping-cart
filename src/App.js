@@ -10,6 +10,7 @@ import './App.css'
 
 const App = () => {
     const[product,setProduct] = useState(products)
+    const[cartItems,setCartItems] = useState([])
     const[size,setSize] = useState("")
 
 //size handler-------------------------------------------------
@@ -42,11 +43,31 @@ const latestSortHandler = () => {
     setProduct(latestPrice)
 }
 
+// add to cart handler
+const addtocartHandler = (product) => {
+   const existProduct = cartItems.find((item) => item._id === product._id )
+   if(existProduct){
+       setCartItems(
+           cartItems.map((item) => 
+        item._id === product._id ? {...existProduct, quantity: existProduct.quantity + 1 } : item
+        )
+       )
+   }else{
+       setCartItems([...cartItems, {...product, quantity: 1}])
+   }
+}
+
+//remove from cart handler
+const removeHandler = (product) => {
+const removeProduct = cartItems.filter((item) => item._id !== product._id)
+setCartItems(removeProduct)
+}
     return (
         <div className="app">
         <Header/>
         <Home products={product} size={size}  filterSizeHandler={filterSizeHandler}
-         lowest={lowestSortHandler} highest={highestSortHandler} latest={latestSortHandler} />
+         lowest={lowestSortHandler} highest={highestSortHandler} latest={latestSortHandler}
+         addtocartHandler={addtocartHandler} removeHandler={removeHandler} cartItems={cartItems} />
         <Footer/>
     </div>
         

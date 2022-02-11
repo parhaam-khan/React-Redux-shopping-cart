@@ -1,6 +1,6 @@
 import './Product.css'
 
-const Product = ({product}) => {
+const Product = ({product,addtocartHandler}) => {
     return ( 
         <div className="product">
 <a>
@@ -11,7 +11,7 @@ const Product = ({product}) => {
     <div>
         {product.price}$
     </div>
-    <button>add to cart</button>
+    <button onClick={() => addtocartHandler(product)}>add to cart</button>
 </div>
         </div>
      );
