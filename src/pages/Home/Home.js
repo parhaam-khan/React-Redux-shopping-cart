@@ -1,10 +1,23 @@
+import { useState } from 'react';
 import Cart from '../../components/Cart/Cart';
 import Filter from '../../components/Filter/Filter';
+import Modal from '../../components/Modal/Modal';
 import Product from '../../components/Product/Product';
 
 import './Home.css'
 
 const Home = (props) => {
+    const[modalProduct,setModalProduct] = useState(null)
+
+    //open&close modal
+const openModal = (product) => {
+    setModalProduct(product)
+    }
+
+    const closeModal = () => {
+setModalProduct(null)
+    }
+
     return ( 
     <main>
          <Filter size={props.size}  products={props.products} 
@@ -16,11 +29,14 @@ const Home = (props) => {
 {props.products.map((item) => {
     return (    
 <li key={item._id}> 
-<Product product={item} addtocartHandler={props.addtocartHandler}/>
+<Product openModal={openModal} product={item} addtocartHandler={props.addtocartHandler}/>
 </li>)
 })}
-
 </ul>
+
+{modalProduct && <Modal addtocartHandler={props.addtocartHandler}
+ modalProduct={modalProduct} closeModal={closeModal}/>}
+
 </div>
 <div className="sidebar">
 <Cart removeHandler={props.removeHandler} cartItems={props.cartItems}

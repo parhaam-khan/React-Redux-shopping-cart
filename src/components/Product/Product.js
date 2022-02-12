@@ -1,12 +1,13 @@
 import './Product.css'
 
-const Product = ({product,addtocartHandler}) => {
+const Product = ({product,addtocartHandler,openModal}) => {
+
     return ( 
         <div className="product">
-<a>
+<div onClick={() => openModal(product)}>
   <img src={product.image} alt={product.title}></img>  
   <p>{product.name}</p>
-</a>
+</div>
 <div className='product-price'>
     <div>
         {product.price}$
