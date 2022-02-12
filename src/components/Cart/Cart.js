@@ -1,6 +1,7 @@
+import Form from '../Form/Form';
 import './Cart.css'
 
-const Cart = ({cartItems, removeHandler}) => {
+const Cart = ({cartItems, removeHandler,showFormHandler,showForm,createOrder}) => {
 
     return ( 
         <div>
@@ -30,11 +31,14 @@ const Cart = ({cartItems, removeHandler}) => {
         </ul>
 </div>
 {cartItems.length !== 0 && (
+    <div>
     <div className='cart'>
     <div className='total'>
-    <h3>total price: {cartItems.reduce((a,c) => a + (c.price * c.quantity), 0 )}</h3>
-    <button className='button-proceed'>proceed</button>
+    <h3>total price: {cartItems.reduce((a,c) => a + (c.price * c.quantity), 0 )}$</h3>
+    <button onClick={showFormHandler} className='button-proceed'>proceed</button>
     </div>
+    </div>
+    {showForm && <Form cartItems={cartItems} createOrder={createOrder}/> }
     </div>
 )}
         </div>

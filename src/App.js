@@ -10,8 +10,9 @@ import './App.css'
 
 const App = () => {
     const[product,setProduct] = useState(products)
-    const[cartItems,setCartItems] = useState([])
+    const[cartItems,setCartItems] = useState(localStorage.getItem("cartItems") ? JSON.parse(localStorage.getItem("cartItems")): [])
     const[size,setSize] = useState("")
+    const[showForm,setShowForm] = useState(false)
 
 //size handler-------------------------------------------------
     const filterSizeHandler = (e) => {
@@ -47,13 +48,16 @@ const latestSortHandler = () => {
 const addtocartHandler = (product) => {
    const existProduct = cartItems.find((item) => item._id === product._id )
    if(existProduct){
-       setCartItems(
-           cartItems.map((item) => 
-        item._id === product._id ? {...existProduct, quantity: existProduct.quantity + 1 } : item
-        )
-       )
+        
+    const existCartItem = cartItems.map((item) => 
+    item._id === product._id ? {...existProduct, quantity: existProduct.quantity + 1 } : item)
+       setCartItems(existCartItem)
+       localStorage.setItem("cartItems", JSON.stringify( existCartItem ))
+
    }else{
-       setCartItems([...cartItems, {...product, quantity: 1}])
+       const newCartitem = [...cartItems, {...product, quantity: 1}]
+    setCartItems(newCartitem)
+    localStorage.setItem("cartItems", JSON.stringify( newCartitem ))
    }
 }
 
@@ -61,13 +65,25 @@ const addtocartHandler = (product) => {
 const removeHandler = (product) => {
 const removeProduct = cartItems.filter((item) => item._id !== product._id)
 setCartItems(removeProduct)
+localStorage.setItem("cartItems", JSON.stringify(removeProduct))
+
+}
+
+//show form handler
+const showFormHandler = () => {
+    setShowForm(true)
+}
+
+const createOrder = (order) => {
+alert(`need to save ${order.name}`)
 }
     return (
         <div className="app">
         <Header/>
         <Home products={product} size={size}  filterSizeHandler={filterSizeHandler}
          lowest={lowestSortHandler} highest={highestSortHandler} latest={latestSortHandler}
-         addtocartHandler={addtocartHandler} removeHandler={removeHandler} cartItems={cartItems} />
+         addtocartHandler={addtocartHandler} removeHandler={removeHandler} cartItems={cartItems}
+         showFormHandler={showFormHandler} showForm={showForm} createOrder={createOrder} />
         <Footer/>
     </div>
         

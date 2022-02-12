@@ -23,7 +23,8 @@ const Home = (props) => {
 </ul>
 </div>
 <div className="sidebar">
-<Cart removeHandler={props.removeHandler} cartItems={props.cartItems}/>
+<Cart removeHandler={props.removeHandler} cartItems={props.cartItems}
+ showFormHandler={props.showFormHandler} showForm={props.showForm} createOrder={props.createOrder}/>
 </div>
         </div>
     </main> );
