@@ -19,15 +19,18 @@ setModalProduct(null)
     }
 
     return ( 
+        
     <main>
-         <Filter size={props.size}  products={props.products} 
-         filterSizeHandler={props.filterSizeHandler}  lowest={props.lowest}
-          highest={props.highest} latest={props.latest}/>
-        <div className="content">
+        {props.products.length !== 0 ?
+        <>
+        <Filter products={props.products} 
+        filterSizeHandler={props.filterSizeHandler}  lowest={props.lowest}
+         highest={props.highest} latest={props.latest}/>
+       <div className="content">
 <div className="main-product">
-    <ul className='products'>  
+   <ul className='products'>  
 {props.products.map((item) => {
-    return (    
+   return (    
 <li key={item._id}> 
 <Product openModal={openModal} product={item} addtocartHandler={props.addtocartHandler}/>
 </li>)
@@ -35,14 +38,15 @@ setModalProduct(null)
 </ul>
 
 {modalProduct && <Modal addtocartHandler={props.addtocartHandler}
- modalProduct={modalProduct} closeModal={closeModal}/>}
+modalProduct={modalProduct} closeModal={closeModal}/>}
 
 </div>
 <div className="sidebar">
 <Cart removeHandler={props.removeHandler} cartItems={props.cartItems}
- showFormHandler={props.showFormHandler} showForm={props.showForm} createOrder={props.createOrder}/>
+showFormHandler={props.showFormHandler} showForm={props.showForm} createOrder={props.createOrder}/>
 </div>
-        </div>
+       </div> </>: <h4 className='text-center mt-5'>loading...</h4>}
+         
     </main> );
 }
  

@@ -1,7 +1,10 @@
 
+import {Dropdown} from 'react-bootstrap';
 import './Filter.css'
 
 const Filter = (props) => {
+
+            
     return (<div className="filter">
          <div className="filter-result">availabel products : {props.products.length}</div>
          
@@ -11,19 +14,24 @@ const Filter = (props) => {
   <button onClick={props.highest} type="button" className="btn btn-dark">highest price</button>
          </div>
          
-         <div className="filter-size">
-             Filter size <select value={props.size} onChange={props.filterSizeHandler}>
-                 <option value="">All</option>
-                 <option value="XS">XS</option>
-                 <option value="S">S</option>
-                 <option value="M">M</option>
-                 <option value="L">L</option>
-                 <option value="XL">XL</option>
-                 <option value="XXL">XXL</option>
-             </select>
-             </div>
+         <Dropdown>
+  <Dropdown.Toggle variant="dark" id="dropdown-basic">
+    filter by size 
+  </Dropdown.Toggle>
+  <Dropdown.Menu>
+    <Dropdown.Item onClick={() => props.filterSizeHandler('')}>All</Dropdown.Item>
+    <Dropdown.Item onClick={() => props.filterSizeHandler('XS')} >XS</Dropdown.Item>
+    <Dropdown.Item onClick={() => props.filterSizeHandler('S')}>S</Dropdown.Item>
+    <Dropdown.Item onClick={() => props.filterSizeHandler('M')}>M</Dropdown.Item>
+    <Dropdown.Item onClick={() => props.filterSizeHandler('L')}>L</Dropdown.Item>
+    <Dropdown.Item onClick={() => props.filterSizeHandler('XL')} >XL</Dropdown.Item>
+    <Dropdown.Item onClick={() => props.filterSizeHandler('XXL')}>XXL</Dropdown.Item>
+  </Dropdown.Menu>
+</Dropdown>
     </div>
+
      );
 }
  
 export default Filter;
+

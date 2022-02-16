@@ -1,33 +1,37 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import Footer from "./components/Footer/Footer";
 import Header from "./components/Header/Header";
 
-import products from "./products/products";
 import Home from "./pages/Home/Home";
+
+import axios from "./axios-orders";
 
 import './App.css'
 
 const App = () => {
-    const[product,setProduct] = useState(products)
+    const[product,setProduct] = useState([])
     const[cartItems,setCartItems] = useState(localStorage.getItem("cartItems") ? JSON.parse(localStorage.getItem("cartItems")): [])
-    const[size,setSize] = useState("")
     const[showForm,setShowForm] = useState(false)
 
+    //get data from firebase-------------------------------------------
+
+        useEffect(() => {
+        const getAllProducts  = async () => {
+            const response = await axios.get("/products.json")
+            const allProducts = response.data
+            allProducts && setProduct(allProducts)
+        } 
+        getAllProducts()
+        },[])
+
+
 //size handler-------------------------------------------------
-    const filterSizeHandler = (e) => {
-if(e.target.value !== ""){
-    setSize(e.target.value)
-    const filterSize = products.filter((item) => {
-        return(
-            item.availableSizes.indexOf(e.target.value) >= 0
-        )
-        })
-        setProduct(filterSize)
-}else{
-    setSize(e.target.value)
-    setProduct(products)
-}
+    const filterSizeHandler = (sizeItem) => {
+
+    const filterSize = [...product].filter((item) => item.availableSizes.indexOf(sizeItem) >= 0);
+        setProduct(filterSize);
+
  }
 
      //sort handlers-------------------------------------------
@@ -77,10 +81,11 @@ const showFormHandler = () => {
 const createOrder = (order) => {
 alert(`need to save ${order.name}`)
 }
+
     return (
         <div className="app">
         <Header/>
-        <Home products={product} size={size}  filterSizeHandler={filterSizeHandler}
+        <Home products={product}  filterSizeHandler={filterSizeHandler}
          lowest={lowestSortHandler} highest={highestSortHandler} latest={latestSortHandler}
          addtocartHandler={addtocartHandler} removeHandler={removeHandler} cartItems={cartItems}
          showFormHandler={showFormHandler} showForm={showForm} createOrder={createOrder} />
