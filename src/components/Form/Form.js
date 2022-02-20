@@ -1,10 +1,14 @@
-import { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import './Form.css'
 
-const Form = ({cartItems,createOrder}) => {
-const[name,setName] = useState("")
-const[address,setAddress] = useState("")
-const[email,setEmail] = useState("")
+const Form = ({cartItems,createOrder,totalPrice,openOrderModal}) => {
+
+const dispatch = useDispatch()
+
+const name = useSelector(state => state.nameFormCart.name)
+const email = useSelector(state => state.emailFormCart.email)
+const address = useSelector(state => state.addressFormCart.address)
+
 
 const handleSubmit = (e) => {
     e.preventDefault()
@@ -13,9 +17,11 @@ const handleSubmit = (e) => {
         name,
         address,
         email,
-        cartItems
+        cartItems,
+        totalPrice
     }
     createOrder(order)
+
     }
 
     return ( 
@@ -24,21 +30,24 @@ const handleSubmit = (e) => {
   <ul className='form-container'>
       <li>
           <label>Email</label>
-          <input value={email} type="email" placeholder="email" required onChange={(e) =>setEmail(e.target.value)}/>
+          <input value={email} type="email" placeholder="email" required
+           onChange={(e) =>dispatch({type: 'FORM-CART-EMAIL', payload: e.target.value})}/>
           </li>
           <li>
           <label>Name</label>
-          <input value={name} type="text" placeholder="name" required onChange={(e) =>setName(e.target.value)}/>
+          <input value={name} type="text" placeholder="name" required
+           onChange={(e) =>dispatch({type: 'FORM-CART-NAME', payload: e.target.value})}/>
           </li>
           <li>
           <label>Address</label>
-          <input value={address} type="text" placeholder="address" required onChange={(e) =>setAddress(e.target.value)}/>
+          <input value={address} type="text" placeholder="address" required
+           onChange={(e) =>dispatch({type: 'FORM-CART-ADDRESS', payload: e.target.value})}/>
           </li>
           <li>
-              <button className="form-button" type="submit">checkout</button>
+              <button onClick={openOrderModal} className="form-button" type="submit">checkout</button>
           </li>
   </ul>
-    </form>
+    </form>  
 </div>
      );
 }

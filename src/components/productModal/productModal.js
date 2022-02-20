@@ -1,10 +1,9 @@
 import ReactModal from "react-modal";
-import './Modal.css'
+import './productModal.css'
 
-const Modal = ({closeModal,modalProduct,addtocartHandler}) => {
-
-    const addToCartModal = (product) => {
-        addtocartHandler(product)
+const ProductModal = ({closeModal,modalProduct,addtocartHandler}) => {
+     const addToCartModal = (id) => {
+        addtocartHandler(id)
         closeModal()
     }
     return ( 
@@ -20,7 +19,7 @@ const Modal = ({closeModal,modalProduct,addtocartHandler}) => {
      </p>
      <div className="modalProduct-price">
          <div>{modalProduct.price}</div>
-         <button className="modal-add" onClick={() =>addToCartModal(modalProduct)}>add to cart</button>
+         <button className="modal-add" onClick={() =>addToCartModal(modalProduct._id)}>add to cart</button>
          </div>
 </div>
  </div>
@@ -28,4 +27,4 @@ const Modal = ({closeModal,modalProduct,addtocartHandler}) => {
     );
 }
  
-export default Modal;
+export default ProductModal;

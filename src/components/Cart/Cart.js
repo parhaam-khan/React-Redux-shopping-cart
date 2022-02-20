@@ -1,7 +1,27 @@
+import { useState } from 'react';
+import {  useDispatch, useSelector } from 'react-redux';
 import Form from '../Form/Form';
+import OrderModal from '../OrderModal/OrderModal';
 import './Cart.css'
 
-const Cart = ({cartItems, removeHandler,showFormHandler,showForm,createOrder}) => {
+const Cart = ({ removeHandler,showFormHandler,createOrder}) => {
+    const dispatch = useDispatch()
+   const[orderModal,setOrderModal] = useState(false)
+const cartItems = useSelector(state => state.cart.cartItems)
+const showForm = useSelector(state => state.showFormCart.showForm)
+ const orderValue = useSelector(state => state.order.orderValue)
+
+const totalPrice = cartItems.reduce((a,c) => a + (c.price * c.quantity), 0 )
+
+const openOrderModal = () => {
+    setOrderModal(true)
+}
+
+const closeOrderModal = () => {
+    setOrderModal(false)
+ dispatch({type: 'POST-ORDER', payload: []})
+}
+
 
     return ( 
         <div>
@@ -9,6 +29,9 @@ const Cart = ({cartItems, removeHandler,showFormHandler,showForm,createOrder}) =
             {cartItems.length === 0 ? <div className="cart cart-header">cart is empty</div>:
             <div className="cart cart-header">there is {cartItems.length} item</div>}
             </div>
+
+            {(orderModal  && orderValue.length !== 0) ?<OrderModal openOrderModal={openOrderModal} closeOrderModal={closeOrderModal}/>: null}
+
             <div className='cart'>
         <ul className='cart-items'>
             {cartItems.map((item) => {
@@ -34,11 +57,12 @@ const Cart = ({cartItems, removeHandler,showFormHandler,showForm,createOrder}) =
     <div>
     <div className='cart'>
     <div className='total'>
-    <h3>total price: {cartItems.reduce((a,c) => a + (c.price * c.quantity), 0 )}$</h3>
+    <h3>total price: {totalPrice} $</h3>
     <button onClick={showFormHandler} className='button-proceed'>proceed</button>
     </div>
     </div>
-    {showForm && <Form cartItems={cartItems} createOrder={createOrder}/> }
+    {showForm && <Form totalPrice={totalPrice} cartItems={cartItems}
+     createOrder={createOrder} openOrderModal={openOrderModal} /> }
     </div>
 )}
         </div>

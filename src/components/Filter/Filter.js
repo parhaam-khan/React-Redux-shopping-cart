@@ -1,10 +1,14 @@
 
 import {Dropdown} from 'react-bootstrap';
+import { useDispatch } from 'react-redux';
 import './Filter.css'
 
 const Filter = (props) => {
 
-            
+  const dispatch = useDispatch()
+
+
+
     return (<div className="filter">
          <div className="filter-result">availabel products : {props.products.length}</div>
          

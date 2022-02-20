@@ -12,7 +12,7 @@ const Product = ({product,addtocartHandler,openModal}) => {
     <div>
         {product.price}$
     </div>
-    <button onClick={() => addtocartHandler(product)}>add to cart</button>
+    <button onClick={() => addtocartHandler(product._id)}>add to cart</button>
 </div>
         </div>
      );

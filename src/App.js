@@ -1,94 +1,84 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
+import { useDispatch } from "react-redux";
+import { getProductAction, highestPriceAction, latestPriceAction, lowestPriceAction, sizeFilterAction } from "./redux/actions/productAction";
 
 import Footer from "./components/Footer/Footer";
 import Header from "./components/Header/Header";
 
 import Home from "./pages/Home/Home";
 
-import axios from "./axios-orders";
 
 import './App.css'
+import { useSelector } from "react-redux";
+import { cartAddAction, removeCartAction } from "./redux/actions/cartAction";
+import { orderAction } from "./redux/actions/createOrderAction";
 
 const App = () => {
-    const[product,setProduct] = useState([])
-    const[cartItems,setCartItems] = useState(localStorage.getItem("cartItems") ? JSON.parse(localStorage.getItem("cartItems")): [])
-    const[showForm,setShowForm] = useState(false)
+    const dispatch = useDispatch()
+    const allProducts = useSelector(state => state.getProducts)
+    const{products} = allProducts
+
 
     //get data from firebase-------------------------------------------
 
         useEffect(() => {
-        const getAllProducts  = async () => {
-            const response = await axios.get("/products.json")
-            const allProducts = response.data
-            allProducts && setProduct(allProducts)
-        } 
-        getAllProducts()
-        },[])
+        dispatch(getProductAction())
+        },[dispatch])
 
 
-//size handler-------------------------------------------------
-    const filterSizeHandler = (sizeItem) => {
+//filter size handler--------------------------------------------
+const filterSizeHandler = (sizeItem) => {
+    dispatch(sizeFilterAction(sizeItem))
+     }
 
-    const filterSize = [...product].filter((item) => item.availableSizes.indexOf(sizeItem) >= 0);
-        setProduct(filterSize);
-
- }
 
      //sort handlers-------------------------------------------
 const lowestSortHandler = () => {
-    const lowestPrice = [...product].sort((a,b) => a.price > b.price ? 1:-1)
-    setProduct(lowestPrice)
+     dispatch(lowestPriceAction())
+    
 }
 const highestSortHandler = () => {
-    const highestPrice = [...product].sort((a,b) => a.price < b.price ? 1:-1)
-    setProduct(highestPrice)
+    dispatch(highestPriceAction())
+   
 }
 const latestSortHandler = () => {
-    const latestPrice = [...product].sort((a,b) => a._id < b._id ? 1:-1)
-    setProduct(latestPrice)
+    dispatch(latestPriceAction())
 }
 
 // add to cart handler
-const addtocartHandler = (product) => {
-   const existProduct = cartItems.find((item) => item._id === product._id )
-   if(existProduct){
-        
-    const existCartItem = cartItems.map((item) => 
-    item._id === product._id ? {...existProduct, quantity: existProduct.quantity + 1 } : item)
-       setCartItems(existCartItem)
-       localStorage.setItem("cartItems", JSON.stringify( existCartItem ))
-
-   }else{
-       const newCartitem = [...cartItems, {...product, quantity: 1}]
-    setCartItems(newCartitem)
-    localStorage.setItem("cartItems", JSON.stringify( newCartitem ))
-   }
+const addtocartHandler = (id) => {
+    dispatch(cartAddAction(id))
 }
+
 
 //remove from cart handler
-const removeHandler = (product) => {
-const removeProduct = cartItems.filter((item) => item._id !== product._id)
-setCartItems(removeProduct)
-localStorage.setItem("cartItems", JSON.stringify(removeProduct))
 
-}
+ const removeHandler = (product) => {
+     dispatch(removeCartAction(product))
+
+ }
 
 //show form handler
 const showFormHandler = () => {
-    setShowForm(true)
+    dispatch({type:'SHOW-FORM-CART', payload: true})
 }
 
 const createOrder = (order) => {
-alert(`need to save ${order.name}`)
+dispatch(orderAction(order))
+dispatch({type: 'CLEAR-CART'})
+dispatch({type:'SHOW-FORM-CART' , payload: false})
+dispatch({type:'FORM-CART-EMAIL', payload: ""})
+dispatch({type:'FORM-CART-NAME', payload: ""})
+dispatch({type:'FORM-CART-ADDRESS', payload: ""})
 }
 
     return (
         <div className="app">
         <Header/>
-        <Home products={product}  filterSizeHandler={filterSizeHandler}
+        <Home products={products} 
          lowest={lowestSortHandler} highest={highestSortHandler} latest={latestSortHandler}
-         addtocartHandler={addtocartHandler} removeHandler={removeHandler} cartItems={cartItems}
-         showFormHandler={showFormHandler} showForm={showForm} createOrder={createOrder} />
+         addtocartHandler={addtocartHandler} removeHandler={removeHandler}
+         showFormHandler={showFormHandler} createOrder={createOrder} filterSizeHandler={filterSizeHandler} />
         <Footer/>
     </div>
         

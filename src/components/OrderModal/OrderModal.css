@@ -1,0 +1,16 @@
+.orderModal{
+    padding: 15px;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.orderDetail{
+    padding: 5px;
+}
+
+.orderModal div{
+    display: flex;
+    justify-content: space-between;
+}
+
