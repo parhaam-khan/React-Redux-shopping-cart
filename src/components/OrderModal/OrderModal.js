@@ -2,7 +2,7 @@ import ReactModal from "react-modal";
 import { useSelector } from "react-redux";
 import './OrderModal.css'
 
-const OrderModal = ({openOrderModal,closeOrderModal}) => {
+const OrderModal = ({closeOrderModal}) => {
     const orderValue = useSelector(state => state.order.orderValue)
 
     const customStyles = {
@@ -18,7 +18,7 @@ const OrderModal = ({openOrderModal,closeOrderModal}) => {
     }
 
     return ( 
-        <ReactModal isOpen={openOrderModal} style={customStyles}>
+        <ReactModal isOpen={true} style={customStyles} appElement={document.getElementById("root")}>
            <button className="close-modal" onClick={closeOrderModal}><h5>x</h5></button>
            <div className=" orderModal">
            <h3 className="text-success mb-5">your order has been placed</h3> 

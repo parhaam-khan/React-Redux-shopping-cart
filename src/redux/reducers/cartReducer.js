@@ -1,5 +1,8 @@
 export const cartReducer = (state = {cartItems: []}, action) => {
 switch(action.type){
+    case 'PRE-ADD':
+        return{ loadingCart: true , ...state}
+
     case 'CART-ADD':
         const product = action.payload
 
@@ -10,13 +13,15 @@ if(existProduct){
     const existItem = state.cartItems.map((item) => 
     item._id === product._id ? {...existProduct, quantity: existProduct.quantity + 1 } : item)
     return{
-        cartItems:  existItem 
+        cartItems:  existItem ,
+        loadingCart: false
     }
 
 } else{
     const newItem = [...state.cartItems, {...product, quantity: 1}]
     return{
-     cartItems:  newItem
+     cartItems:  newItem,
+     loadingCart:false
     }
 }
 

@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { Bars } from 'react-loader-spinner';
 import {  useDispatch, useSelector } from 'react-redux';
 import Form from '../Form/Form';
 import OrderModal from '../OrderModal/OrderModal';
@@ -7,9 +8,11 @@ import './Cart.css'
 const Cart = ({ removeHandler,showFormHandler,createOrder}) => {
     const dispatch = useDispatch()
    const[orderModal,setOrderModal] = useState(false)
-const cartItems = useSelector(state => state.cart.cartItems)
+const {cartItems,loadingCart} = useSelector(state => state.cart)
 const showForm = useSelector(state => state.showFormCart.showForm)
  const orderValue = useSelector(state => state.order.orderValue)
+ const loadingPost = useSelector(state => state.order.loadingPost)
+
 
 const totalPrice = cartItems.reduce((a,c) => a + (c.price * c.quantity), 0 )
 
@@ -26,11 +29,13 @@ const closeOrderModal = () => {
     return ( 
         <div>
             <div>
-            {cartItems.length === 0 ? <div className="cart cart-header">cart is empty</div>:
+            { loadingCart ? <div><Bars wrapperStyle={{marginTop: '200px', marginLeft:'120px'}} color="black"/></div> :
+            cartItems.length === 0 ? <div className="cart cart-header">cart is empty</div>:
             <div className="cart cart-header">there is {cartItems.length} item</div>}
             </div>
 
-            {(orderModal  && orderValue.length !== 0) ?<OrderModal openOrderModal={openOrderModal} closeOrderModal={closeOrderModal}/>: null}
+            {loadingPost? <div><Bars wrapperStyle={{marginTop: '200px', marginLeft:'120px'}} color="black"/></div>:
+            (orderModal  && orderValue.length !== 0) ?<OrderModal closeOrderModal={closeOrderModal}/>: null}
 
             <div className='cart'>
         <ul className='cart-items'>

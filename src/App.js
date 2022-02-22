@@ -1,17 +1,17 @@
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
 import { getProductAction, highestPriceAction, latestPriceAction, lowestPriceAction, sizeFilterAction } from "./redux/actions/productAction";
 
-import Footer from "./components/Footer/Footer";
 import Header from "./components/Header/Header";
 
 import Home from "./pages/Home/Home";
 
-
-import './App.css'
-import { useSelector } from "react-redux";
 import { cartAddAction, removeCartAction } from "./redux/actions/cartAction";
 import { orderAction } from "./redux/actions/createOrderAction";
+
+import "react-loader-spinner/dist/loader/css/react-spinner-loader.css";
+import './App.css'
 
 const App = () => {
     const dispatch = useDispatch()
@@ -79,7 +79,6 @@ dispatch({type:'FORM-CART-ADDRESS', payload: ""})
          lowest={lowestSortHandler} highest={highestSortHandler} latest={latestSortHandler}
          addtocartHandler={addtocartHandler} removeHandler={removeHandler}
          showFormHandler={showFormHandler} createOrder={createOrder} filterSizeHandler={filterSizeHandler} />
-        <Footer/>
     </div>
         
  );

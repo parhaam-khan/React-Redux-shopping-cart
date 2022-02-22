@@ -1,7 +1,10 @@
 import axios from "../../axios-orders"
 
 export const cartAddAction = (id) => async (dispatch,getState) => {
+    
     const cartItems = getState().cart.cartItems
+
+    dispatch({type: 'PRE-ADD'})
 
     const {data} = await axios.get(`/products/${id}.json`)
 

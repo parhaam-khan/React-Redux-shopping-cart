@@ -5,6 +5,7 @@ import ProductModal from '../../components/productModal/productModal';
 import Product from '../../components/Product/Product';
 
 import './Home.css'
+import { Bars } from 'react-loader-spinner';
 
 const Home = (props) => {
 const dispatch = useDispatch()
@@ -23,7 +24,7 @@ const openModal = (product) => {
     return ( 
         
     <main>
-        {props.products.length !== 0 ?
+        {loading ? <div><Bars wrapperStyle={{margin: '300px 0 0 700px'}} color="black"/></div>:
         <>
         <Filter products={props.products} filterSizeHandler={props.filterSizeHandler}
          lowest={props.lowest}
@@ -48,7 +49,7 @@ modalProduct={modalProduct} closeModal={closeModal}/>}
 <Cart removeHandler={props.removeHandler} cartItems={props.cartItems}
 showFormHandler={props.showFormHandler}  createOrder={props.createOrder}/>
 </div>
-       </div> </>: <h4 className='text-center mt-5'>loading...</h4>}
+       </div> </>}
          
     </main> );
 }
